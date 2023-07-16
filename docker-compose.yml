@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+  short-link-db:
+    container_name: short-link-db
+    build:
+      dockerfile: ./dockerfiles/database/Dockerfile
+    tty: true
+    entrypoint: [ "sh","start-mysql.sh" ]
+    ports:
+      - "9906:3306"
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - short-link-net
+  short-link-service:
+    container_name: short-link-service
+    build:
+      dockerfile: ./dockerfiles/service/Dockerfile
+    tty: true
+    restart: always
+    volumes:
+      - ./public:/var/www/html/short-link
+    ports:
+      - "80:80"
+    networks:
+      - short-link-net
+  short-link-server:
+    container_name: short-link-server
+    build:
+      context: .
+      dockerfile: ./dockerfiles/server/Dockerfile
+    tty: true
+    restart: always
+    volumes:
+      - ./server:/var/www/html/server
+    ports:
+      - "8000:8000"
+    networks:
+      - short-link-net
+volumes:
+  db:
+networks:
+  short-link-net:
+    name: short-link-net
+    external: true
