@@ -45,11 +45,26 @@ class ShortLinksModel extends AbstractModel
 
     public function getShortLink(string $longLink): string
     {
-        return ($this->select([$this->shortLinkEntry], [$this->longLinkEntry, '=', "'$longLink'"]))[0][$this->longLinkEntry];
+        $result = ($this->select([$this->shortLinkEntry], [$this->longLinkEntry, '=', "'$longLink'"]));
+        if (count($result) == 0) {
+            return '';
+        }
+        if (array_key_exists($this->shortLinkEntry, $result[0])) {
+            return $result[0][$this->shortLinkEntry];
+        }
+        return '';
     }
 
     public function getLongLink(string $shortLink): string
     {
-        return ($this->select([$this->longLinkEntry], [$this->shortLinkEntry, '=', "'$shortLink'"]))[0][$this->longLinkEntry];
+        $result = ($this->select([$this->longLinkEntry], [$this->shortLinkEntry, '=', "'$shortLink'"]));
+
+        if (count($result) == 0) {
+            return '';
+        }
+        if (array_key_exists($this->longLinkEntry, $result[0])) {
+            return $result[0][$this->longLinkEntry];
+        }
+        return '';
     }
 }

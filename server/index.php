@@ -10,3 +10,5 @@ use Server\APIEndpointController;
 $api = new APIEndpointController();
 
 $api->parseRequest();
+
+//$test = new Server\ShortLinksModelUnitTests();

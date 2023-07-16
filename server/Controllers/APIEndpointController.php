@@ -24,8 +24,12 @@ class APIEndpointController
         if (count($data) == 0) {
             $data = (array)json_decode(file_get_contents('php://input'));
         }
+        if (!array_key_exists('action-name', $data)) {
+            return;
+        }
+        $action = $data['action-name'];
         $controller = new ShortLinksController();
-        switch ($data['action-name']) {
+        switch ($action) {
             case 'add-url':
                 $this->respond($controller->addNewLink($data));
                 break;
@@ -41,8 +45,12 @@ class APIEndpointController
     private function parseGetRequest(): void
     {
         $data = $_GET;
+        if (!array_key_exists('action-name', $data)) {
+            return;
+        }
+        $action = $data['action-name'];
         $controller = new ShortLinksController();
-        switch ($data['action-name']) {
+        switch ($action) {
             case 'get-links':
                 $this->respond($controller->getAllLinks());
                 break;

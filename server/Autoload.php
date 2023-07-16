@@ -8,7 +8,7 @@ spl_autoload_register(function ($className) {
         'Controllers',
         'Models',
         'QueryBuilders',
-        'Server'
+        'UnitTests'
     ];
 
     $projectDir = __DIR__ . '\\';
